@@ -31,5 +31,21 @@ server.get('/', (req, res) => {
     })
   });
 
+  server.delete('/students/:id', (req, res) => {
+    db('students')
+    .where({id:req.params.id})
+    .del()
+    .then(count =>{
+      if (count>0){
+        res.status(200).json({message:`${count} student was deleted`})
+      }else{
+        res.status(400).json({message:'the specified student does not exist'})
+      }
+    })
+    .catch(err =>{
+      res.status(500).json(err)
+    })
+  });
+
 
 module.exports = server;

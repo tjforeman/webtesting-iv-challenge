@@ -54,4 +54,37 @@ describe('post students', () =>{
     })
     
 })
+describe("the delete endpoint", () => {
+    afterEach(async () => {
+        await db('students').truncate();
+      });
+
+    it('deletes the student and responds with 200 status', async () => {
+        await request(server)
+        .post("/students")
+        .send({name:'Cho'});
+
+        const res = await request(server).delete('/students/1');
+
+        expect(res.status).toBe(200);
+      })
+      
+      it('returns a 400 status if the ID doesnt exist', async () => {
+        await request(server)
+        .post("/students")
+        .send({name:'Dean'});
+
+        const res = await request(server).delete('/students/26');
+
+        expect(res.status).toBe(400);
+    })
+    it('returns a 400 status if nothing is sent', async () => {
+        await request(server)
+        .post("/students")
+  
+          const res = await request(server).delete('/students/1');
+  
+          expect(res.status).toBe(400);
+      })
+})
 })
