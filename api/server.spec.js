@@ -60,9 +60,7 @@ describe("the delete endpoint", () => {
       });
 
     it('deletes the student and responds with 200 status', async () => {
-        await request(server)
-        .post("/students")
-        .send({name:'Cho'});
+        await db('students').insert({name:'Cho'});
 
         const res = await request(server).delete('/students/1');
 
@@ -70,17 +68,15 @@ describe("the delete endpoint", () => {
       })
       
       it('returns a 400 status if the ID doesnt exist', async () => {
-        await request(server)
-        .post("/students")
-        .send({name:'Dean'});
+        await db('students').insert({name:'Cho'});
 
         const res = await request(server).delete('/students/26');
 
         expect(res.status).toBe(400);
     })
+    
     it('returns a 400 status if nothing is sent', async () => {
-        await request(server)
-        .post("/students")
+        await db('students')
   
           const res = await request(server).delete('/students/1');
   
